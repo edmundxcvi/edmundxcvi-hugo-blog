@@ -1,0 +1,49 @@
+name: Deloy to AWS
+
+on:
+  # Manual trigger (only allowed on dev branch)
+  workflow_dispatch:
+
+  # Automatic trigger on commits to main
+  # (All commits to main will be PR merges)
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::770214659717:role/hugo-blog-deployment-bot
+          role-session-name: GitHubActions
+
+      - name: Check auth parameters
+        run: aws sts get-caller-identity
+
+      # - name: Set up Terraform
+      #   uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.11.4
+
+      #     aws-region: eu-west-2
+
+      # - name: Terraform Init
+      #   run: terraform init
+
+      # - name: Terraform Plan
+      #   run: terraform plan
+
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: us-east-1
