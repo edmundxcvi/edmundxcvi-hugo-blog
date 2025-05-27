@@ -40,10 +40,17 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan
-        working-directory: ./infra
+      - name: Determine Deployment Environment 
+        id: deployment_env 
+        # run: echo "deployment_env=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')" >> $GITHUB_ENV
+        run: echo "deployment_env=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: ./infra
+      - name: Debug 
+        run: echo "Deployment Environment: ${{ env.deployment_env }}"
+      # - name: Terraform Plan
+      #   run: terraform plan
+      #   working-directory: ./infra
+
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   working-directory: ./infra
