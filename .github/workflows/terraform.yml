@@ -47,7 +47,8 @@ jobs:
         run: echo "deployment_env=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Debug
-        run: echo "Deployment Environment: ${{ env.deployment_env }}"
+        run: echo ${{ env.BRANCH_NAME }}
+
       # - name: Terraform Plan
       #   run: terraform plan
       #   working-directory: ./infra
