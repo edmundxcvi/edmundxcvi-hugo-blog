@@ -38,6 +38,7 @@ jobs:
           role-to-assume: arn:aws:iam::770214659717:role/hugo-blog-deployment-bot
           role-session-name: GitHubActions
           aws-region: eu-west-2
+          audience: sts.amazonaws.com
 
       - name: Check auth parameters
         run: aws sts get-caller-identity
