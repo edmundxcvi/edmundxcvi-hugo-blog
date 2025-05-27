@@ -23,15 +23,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug OIDC Token
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const idToken = await core.getIDToken();
-            const tokenPayload = JSON.parse(Buffer.from(idToken.split('.')[1], 'base64').toString());
-            console.log("OIDC Token Payload:");
-            console.log(JSON.stringify(tokenPayload, null, 2));
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -40,25 +31,17 @@ jobs:
           aws-region: eu-west-2
           audience: sts.amazonaws.com
 
-      - name: Check auth parameters
-        run: aws sts get-caller-identity
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+          aws-region: eu-west-2
 
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.11.4
+      - name: Terraform Init
+        run: terraform init
 
-      #     aws-region: eu-west-2
+      - name: Terraform Plan
+        run: terraform plan
 
-      # - name: Terraform Init
-      #   run: terraform init
-
-      # - name: Terraform Plan
-      #   run: terraform plan
-
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: us-east-1
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
