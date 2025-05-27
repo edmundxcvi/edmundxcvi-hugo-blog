@@ -41,10 +41,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      # - name: Determine Deployment Environment
-      #   id: deployment_env
-      #   # run: echo "deployment_env=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')" >> $GITHUB_ENV
-      #   run: echo "deployment_env=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Determine Deployment Environment
+        #   id: deployment_env
+        # run: echo "deployment_env=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')" >> $GITHUB_ENV
+        run: echo "deployment_env=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       # - name: Debug
       #   run: echo "Deployment Environment: ${{ env.deployment_env }}"
