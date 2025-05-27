@@ -48,9 +48,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -var="environment_name=${{ env.deployment_env }}"
         working-directory: ./infra
-        # env:
-        #   environment_name: ${{ env.deployment_env }}
 
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
-      #   working-directory: ./infra
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var="environment_name=${{ env.deployment_env }}"
+        working-directory: ./infra
