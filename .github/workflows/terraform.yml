@@ -49,9 +49,11 @@ jobs:
       - name: Debug
         run: echo ${{ env.BRANCH_NAME }}
 
-      # - name: Terraform Plan
-      #   run: terraform plan
-      #   working-directory: ./infra
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ./infra
+        env:
+          deployment_environment: ${{ env.deployment_env }}
 
       # - name: Terraform Apply
       #   run: terraform apply -auto-approve
